@@ -1,0 +1,26 @@
+---
+title: "Avocado Oil Authenticity"
+format: html
+editor: visual
+---
+
+```{r}
+# Using R
+# Option 1: tidytuesdayR R package 
+## install.packages("tidytuesdayR")
+
+pacman::p_load(tidyverse, readr, readxl, downloader, rio, plotly, knitr, pander, ggthemes, ggrepel, directlabels, ggtext, scales, lubridate, riem, mosaic, DT, forcats, stringr, stringi, pander)
+
+tuesdata <- tidytuesdayR::tt_load('2026-10-06')
+## OR
+tuesdata <- tidytuesdayR::tt_load(2026, week = 40)
+
+avocado_oil_bottles <- tuesdata$avocado_oil_bottles
+avocado_oil_processed_foods <- tuesdata$avocado_oil_processed_foods
+
+# Option 2: Read directly from GitHub
+
+avocado_oil_bottles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-10-06/avocado_oil_bottles.csv')
+avocado_oil_processed_foods <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-10-06/avocado_oil_processed_foods.csv')
+```
+

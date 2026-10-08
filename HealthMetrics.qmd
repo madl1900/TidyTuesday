@@ -1,0 +1,46 @@
+---
+title: "Helath Metrics"
+format: html
+editor: visual
+---
+
+```{r}
+pacman::p_load(tidyverse, readr, readxl, downloader, rio, plotly, knitr, pander, ggthemes, ggrepel, directlabels, ggtext, scales, lubridate, riem, mosaic, DT, forcats, stringr, stringi, pander)
+```
+
+```{r}
+# Using R
+# Option 1: tidytuesdayR R package 
+## install.packages("tidytuesdayR")
+
+tuesdata <- tidytuesdayR::tt_load('2026-09-29')
+## OR
+# tuesdata <- tidytuesdayR::tt_load(2026, week = 39)
+
+health <- tuesdata$health
+
+# Option 2: Read directly from GitHub
+
+health <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-29/health.csv')
+```
+
+```{r}
+# GC_DEV_USR_2025 - continents
+# HL_FDE_HOS_2024 - hospitals per urban center area
+
+clean_health <- health %>%
+  drop_na(HL_FDE_HOS_2024)
+
+ggplot(clean_health, aes(x = GC_DEV_USR_2025, y = HL_FDE_HOS_2024)) +
+  geom_col() +
+  theme_minimal() +
+  labs(
+    title = "",
+    x = "Continent",
+    y = "Hospitals per urban area"
+  ) +
+  theme(
+    axis.text.x = element_text(size = 6)
+  )
+```
+
