@@ -24,3 +24,19 @@ avocado_oil_bottles <- readr::read_csv('https://raw.githubusercontent.com/rforda
 avocado_oil_processed_foods <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-10-06/avocado_oil_processed_foods.csv')
 ```
 
+```{r}
+
+ggplot(avocado_oil_bottles, aes(x = factor(grade_labeled), fill = factor(purity_result))) +
+  geom_bar(position = "dodge")
+```
+
+```{r}
+ggplot(avocado_oil_bottles, aes(x = factor(product_origin), fill = factor(purity_result))) +
+  geom_bar()
+```
+
+```{r}
+ggplot(avocado_oil_bottles, aes(x = factor(product_origin), fill = factor(grade_labeled))) +
+  geom_bar()
+```
+
