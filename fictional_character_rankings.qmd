@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+# Using R
+# Option 1: tidytuesdayR R package 
+## install.packages("tidytuesdayR")
+
+
+
+# Option 2: Read directly from GitHub
+
+fiction_citations <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-11-10/fiction_citations.csv')
+fiction_deaths <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-11-10/fiction_deaths.csv')
+fiction_rankings <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-11-10/fiction_rankings.csv')
+```
+
+```{r}
+library(tidyverse)
+library(mosaic)
+
+top_killers <- fiction_deaths %>%
+  group_by(franchise_slug, killer) %>%
+  summarise(victim_num = n(), .groups = "drop") %>%
+  group_by(franchise_slug) %>%
+  slice_max(victim_num, n = 1, with_ties = TRUE)
+
+reversed_kills <- top_killers %>%
+  left_join(fiction_deaths, by = "killer") %>%
+  group_by(killer) %>%
+  mutate(reversed_count = sum(undone)) %>%
+  arrange(franchise_slug.x)
+```
+
+```{r}
+ggplot(reversed_kills, aes(x = franchise_slug.x, y = victim_num, fill = killer)) +
+  geom_col(position = "dodge")
+```
+

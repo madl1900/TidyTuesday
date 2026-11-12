@@ -1,0 +1,49 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+# Using R
+# Option 1: tidytuesdayR R package 
+## install.packages("tidytuesdayR")
+
+# Option 2: Read directly from GitHub
+
+ikea_places <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-10-27/ikea_places.csv')
+ikea_seating <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-10-27/ikea_seating.csv')
+```
+
+```{r}
+pacman::p_load(tidyverse, mosaic, rio, car, pander, dplyr)
+```
+
+```{r}
+most_countries <- ikea_seating %>%
+  group_by(product_name) %>%
+  summarize(country = n()) %>%
+  filter(country > 500)
+
+least_countries <- ikea_seating %>%
+  group_by(product_name) %>%
+  summarize(country = n()) %>%
+  filter(country < 3)
+
+```
+
+```{r}
+ggplot(most_countries, aes(x = product_name, y = country)) +
+  geom_col()
+```
+
+```{r}
+ggplot(least_countries, aes(x = product_name, y = country)) +
+  geom_col() +
+  theme(
+    axis.text.x = element_text(size = 4)
+  )
+```
+
+
+
