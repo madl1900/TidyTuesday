@@ -1,0 +1,65 @@
+---
+title: "Cholesterol and Mortality"
+format: html
+editor: visual
+---
+
+```{r}
+# Using R
+
+# Option 2: Read directly from GitHub
+
+cholesterol_mortality <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-11-17/cholesterol_mortality.csv')
+
+library(tidyverse)
+library(mosaic)
+library(car)
+```
+
+```{r}
+deaths <- cholesterol_mortality %>%
+  filter(died == 1)
+
+favstats(deaths$total_chol)
+
+high_low <- deaths %>%
+  mutate(chol_type = case_when(total_chol > 200 ~ "High",
+                               total_chol < 100 ~ "Low",
+                               TRUE ~ "Normal")) %>%
+  filter(chol_type != "Normal")
+```
+
+```{r}
+ggplot(deaths, aes(x = cause_of_death, y = total_chol)) +
+  geom_boxplot(fill = "steelblue") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(size = 5),
+    text = element_text(family = "serif"),
+    axis.line = element_line()
+  ) +
+  labs(
+    title = "Cholesterol Levels Are Similar For All Causes of Death",
+    x = "Cause of Death",
+    y = "Total Cholesterol"
+  )
+```
+
+```{r}
+ggplot(high_low, aes(x = cause_of_death, fill = chol_type)) +
+  geom_bar(position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(size = 5),
+    legend.position = "top",
+    text = element_text(family = "serif"),
+    axis.line = element_line()
+  ) +
+  labs(
+    title = "More People With High Cholesterol Across All Causes of Death",
+    x = "Cause of Death",
+    y = "Count of People",
+    fill = "Cholesterol Type"
+  )
+```
+
