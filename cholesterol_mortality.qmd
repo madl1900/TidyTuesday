@@ -46,6 +46,19 @@ ggplot(deaths, aes(x = cause_of_death, y = total_chol)) +
 ```
 
 ```{r}
+library(pander)
+chol_aov <- aov(deaths$total_chol~deaths$cause_of_death)
+pander(summary(chol_aov))
+```
+
+```{r}
+chol_tukey <- TukeyHSD(chol_aov)
+pander(chol_tukey)
+```
+
+
+
+```{r}
 ggplot(high_low, aes(x = cause_of_death, fill = chol_type)) +
   geom_bar(position = "dodge") +
   theme_minimal() +
